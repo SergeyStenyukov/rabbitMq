@@ -52,29 +52,4 @@ public class ProducerConfig {
     public Queue queue(){
         return new Queue("default_direct");
     }
-
-    @Bean
-    public Queue queueDirectExchangeFirst(){
-        return new Queue("first_direct", false);
-    }
-
-    @Bean
-    public Queue queueDirectExchangeSecond(){
-        return new Queue("second_direct", false);
-    }
-
-    @Bean("directExchange")
-    public DirectExchange directExchange(){
-        return new DirectExchange("direct_exchange");
-    }
-
-    @Bean
-    public Binding directBindingFirst(){
-        return BindingBuilder.bind(queueDirectExchangeFirst()).to(directExchange()).with("first");
-    }
-
-    @Bean
-    public Binding directBindingSecond(){
-        return BindingBuilder.bind(queueDirectExchangeSecond()).to(directExchange()).with("second");
-    }
 }

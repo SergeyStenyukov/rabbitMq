@@ -26,7 +26,7 @@ public class ProducerController {
 
     @PostMapping("/sendMessageDefault")
     public ResponseEntity<String> sendMessageDefault(@RequestParam String input) throws InterruptedException {
-        for (int i = 0; i < 100; i++){
+        for (int i = 0; i < 100; i++) {
             defaultTemplate.convertAndSend("default_direct", input + i);
             Thread.sleep(100);
             System.out.println("Message sent: " + input);
@@ -36,8 +36,8 @@ public class ProducerController {
 
     @PostMapping("/sendDirectExchange")
     public ResponseEntity<String> sendMessageDirectExchange(@RequestParam String input) throws InterruptedException {
-        String rountingKey = null;
-        for (int i = 0; i < 100; i++){
+        String rountingKey;
+        for (int i = 0; i < 100; i++) {
             if (i % 2 == 0)
                 rountingKey = "first";
             else
