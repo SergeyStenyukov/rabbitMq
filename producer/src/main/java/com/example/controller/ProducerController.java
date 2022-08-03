@@ -19,21 +19,17 @@ import java.util.List;
 @RequestMapping
 public class ProducerController {
 
-    private final RabbitTemplate defaultTemplate;
-
-    private AmqpTemplate amqpTemplate;
+    private final AmqpTemplate amqpTemplate;
 
     public ProducerController(@Qualifier("defaultDirectExchange") RabbitTemplate defaultTemplate,
                               AmqpTemplate amqpTemplate) {
         this.amqpTemplate = amqpTemplate;
-        this.defaultTemplate = defaultTemplate;
-
     }
 
     @PostMapping("/sendMessageDefault")
     public ResponseEntity<String> sendMessageDefault(@RequestParam String input) throws InterruptedException {
         for (int i = 0; i < 100; i++) {
-            defaultTemplate.convertAndSend("default_direct", input + i);
+            amqpTemplate.convertAndSend("default_direct", input + i);
             Thread.sleep(100);
             System.out.println("Message sent: " + input + " " + i);
         }
