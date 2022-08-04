@@ -1,5 +1,5 @@
 # RabbitMq
-initalize RabbitMq: docker compose up
+initialize RabbitMq: docker compose up
 
 RabbitMq ui http://localhost:15672/#/
 Producer port 8080
