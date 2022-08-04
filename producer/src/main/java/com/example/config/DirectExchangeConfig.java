@@ -11,27 +11,27 @@ import org.springframework.context.annotation.Configuration;
 public class DirectExchangeConfig {
 
     @Bean
-    public Queue queueDirectExchangeFirst(){
+    public Queue queueDirectExchangeFirst() {
         return new Queue("first_direct", false);
     }
 
     @Bean
-    public Queue queueDirectExchangeSecond(){
+    public Queue queueDirectExchangeSecond() {
         return new Queue("second_direct", false);
     }
 
     @Bean("directExchange")
-    public DirectExchange directExchange(){
-        return new DirectExchange("direct_exchange");
+    public DirectExchange directExchange() {
+        return new DirectExchange("direct_exchange", false, false);
     }
 
     @Bean
-    public Binding directBindingFirst(){
+    public Binding directBindingFirst() {
         return BindingBuilder.bind(queueDirectExchangeFirst()).to(directExchange()).with("first");
     }
 
     @Bean
-    public Binding directBindingSecond(){
+    public Binding directBindingSecond() {
         return BindingBuilder.bind(queueDirectExchangeSecond()).to(directExchange()).with("second");
     }
 }

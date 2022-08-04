@@ -1,9 +1,6 @@
 package com.example.config;
 
 import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -43,13 +40,18 @@ public class ProducerConfig {
         return new RabbitAdmin(connectionFactory());
     }
 
-    @Bean("defaultDirectExchange")
+    @Bean
     public RabbitTemplate rabbitTemplate() {
         return new RabbitTemplate(connectionFactory());
     }
 
     @Bean
-    public Queue queue(){
-        return new Queue("default_direct");
+    public Queue defaultQueue() {
+        return new Queue("default_direct", false);
+    }
+
+    @Bean
+    public void initQueues() {
+        amqpAdmin().declareQueue();
     }
 }

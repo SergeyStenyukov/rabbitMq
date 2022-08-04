@@ -22,8 +22,9 @@ public class HeaderExchangeConfig {
 
     @Bean
     HeadersExchange headerExchange() {
-        return new HeadersExchange("header_exchange");
+        return new HeadersExchange("header_exchange", false, false);
     }
+
     @Bean
     Binding firstHeaderBinding() {
         return BindingBuilder.bind(firstHeaderQueue()).to(headerExchange())

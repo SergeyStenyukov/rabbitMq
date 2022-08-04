@@ -27,7 +27,7 @@ public class TopicExchangeConfig {
 
     @Bean
     TopicExchange topicExchange() {
-        return new TopicExchange("topic_exchange");
+        return new TopicExchange("topic_exchange", false, false);
     }
 
     @Bean

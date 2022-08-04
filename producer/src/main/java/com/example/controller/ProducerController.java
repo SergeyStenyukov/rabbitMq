@@ -21,14 +21,13 @@ public class ProducerController {
 
     private final AmqpTemplate amqpTemplate;
 
-    public ProducerController(@Qualifier("defaultDirectExchange") RabbitTemplate defaultTemplate,
-                              AmqpTemplate amqpTemplate) {
+    public ProducerController(AmqpTemplate amqpTemplate) {
         this.amqpTemplate = amqpTemplate;
     }
 
     @PostMapping("/sendMessageDefault")
     public ResponseEntity<String> sendMessageDefault(@RequestParam String input) throws InterruptedException {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 20; i++) {
             amqpTemplate.convertAndSend("default_direct", input + i);
             Thread.sleep(100);
             System.out.println("Message sent: " + input + " " + i);
@@ -39,7 +38,7 @@ public class ProducerController {
     @PostMapping("/sendDirectExchange")
     public ResponseEntity<String> sendMessageDirectExchange(@RequestParam String input) throws InterruptedException {
         String rountingKey;
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 20; i++) {
             if (i % 2 == 0)
                 rountingKey = "first";
             else
@@ -55,7 +54,7 @@ public class ProducerController {
     @PostMapping("/sendFanoutExchange")
     public ResponseEntity<String> sendMessageFanoutExchange(@RequestParam String input) throws InterruptedException {
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             amqpTemplate.convertAndSend("fanout_exchange", "", input + i);
             Thread.sleep(100);
             System.out.println("Message sent: " + input + " " + i);
@@ -66,7 +65,7 @@ public class ProducerController {
     @PostMapping("/sendTopicExchange")
     public ResponseEntity<String> sendMessageTopicExchange(@RequestParam String input) throws InterruptedException {
         String rountingKey;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             if (i % 2 == 0)
                 rountingKey = "queue.first_topic";
             else
@@ -80,7 +79,7 @@ public class ProducerController {
 
     @PostMapping("/sendHeaderExchange")
     public ResponseEntity<String> sendMessageHeaderExchange(@RequestParam String input) throws InterruptedException {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             MessageProperties msgProperties = new MessageProperties();
             if (i % 2 == 0)
                 msgProperties.setHeader("header", "first");
