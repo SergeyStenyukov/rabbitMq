@@ -51,6 +51,11 @@ public class ProducerConfig {
     }
 
     @Bean
+    public Queue directReplyTo() {
+        return new Queue("direct_reply_to", false);
+    }
+
+    @Bean
     public void initQueues() {
         amqpAdmin().declareQueue();
     }

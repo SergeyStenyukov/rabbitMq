@@ -3,17 +3,13 @@ package com.example.controller;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.amqp.support.converter.SimpleMessageConverter;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping
@@ -92,6 +88,17 @@ public class ProducerController {
             amqpTemplate.convertAndSend("header_exchange", "", message);
             Thread.sleep(100);
             System.out.println("Message sent: " + input + " " + i);
+        }
+        return ResponseEntity.ok(input + " successfully sent");
+    }
+
+    @PostMapping("/directReplyTo")
+    public ResponseEntity<String> sendMessagesWithDirectReply(@RequestParam String input) throws InterruptedException {
+        for (int i = 0; i < 20; i++) {
+            System.out.println("Message sent: " + input + " " + i);
+            var result = amqpTemplate.convertSendAndReceive("direct_reply_to", input + i);
+            Thread.sleep(100);
+            System.out.println("Reply for input " + input + " : " + result);
         }
         return ResponseEntity.ok(input + " successfully sent");
     }
