@@ -1,0 +1,12 @@
+version: '3.3'
+
+services:
+  neo4j:
+    image: neo4j:community
+    container_name: neo4j
+    restart: always
+    ports:
+      - "7687:7687"
+      - "7474:7474"
+    environment:
+      - NEO4J_AUTH=neo4j/Qq111111
